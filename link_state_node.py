@@ -85,7 +85,10 @@ class Link_State_Node(Node):
             Q.remove(u)
             # try using u to make shorter paths
             for v in self.get_neighbors(u):
-                alt = dist[u] + self.edge_latencies.get((u, v))
+                if self.edge_latencies.get((u, v)) is None:
+                    alt = sys.maxsize
+                else:
+                    alt = dist[u] + self.edge_latencies.get((u, v))
                 if alt < dist[v]:
                     dist[v] = alt
                     prev[v] = u
